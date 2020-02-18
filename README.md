@@ -1,3 +1,6 @@
+# Personal App: Serverless web chat app by using ReactJS + Firebase 
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
