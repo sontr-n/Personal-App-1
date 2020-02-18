@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import './App.css';
 // import Chat from './Chat.js'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import Join from './components/Join.js';
-import Chat from './components/Chat.js';
+import Join from './components/Join';
+import Chat from './components/Chat';
 
 const App = () => {
+
   return (
     <Router>
       <Route path='/' exact component={Join} />

@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from '../useForm';
 import './Join.css';
+import firebase from '../Firebase';
 
 const Join = () => {
   const [values, handleChange] = useForm({ name: '', password: '' });
-
 
   return (
     <div className="joinOuterContainer">
@@ -18,7 +18,15 @@ const Join = () => {
           <input name="room" placeholder="Room" className="joinInput mt-20" type="text" onChange={handleChange} ></input>
         </div>
         <Link to={`/chat`}>
-          <button onClick={e => (!values.name || !values.room) ? e.preventDefault() : null} className="button mt-20" type="submit">Sign In</button>
+          <button onClick={e => {
+              if (!values.name || !values.room)
+                e.preventDefault();
+              else {
+                if (!localStorage.getItem('name')) localStorage.setItem('name', values.name);
+                firebase.signIn(values.room);
+              }
+            }
+          } className="button mt-20" type="submit">Sign In</button>
         </Link>
       </div>
     </div>
@@ -27,4 +35,3 @@ const Join = () => {
 
 export default Join;
 
- 
