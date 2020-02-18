@@ -1,4 +1,4 @@
-# Personal App: Serverless Chat Application by using ReactJS and Firebase 
+# Personal App: Serverless Chat Application using ReactJS and Firebase 
 
 ![react + firebase logo](https://miro.medium.com/max/3248/1*CywxT9za2jlqaemf9vjYAQ.png)
 
