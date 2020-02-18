@@ -5,25 +5,25 @@ import './Join.css';
 import firebase from '../Firebase';
 
 const Join = () => {
-  const [values, handleChange] = useForm({ name: '', password: '' });
+  const [values, handleChange] = useForm({ username: '', room: '' });
 
   return (
     <div className="joinOuterContainer">
       <div className="joinInnerContainer">
         <h1 className="heading">Let's Chat</h1>
         <div>
-          <input name="name" placeholder="Name" className="joinInput" type="text" onChange={handleChange} ></input>
+          <input name="username" placeholder="Name" className="joinInput" type="text" onChange={handleChange} ></input>
         </div>
         <div>
-          <input name="room" placeholder="Room" className="joinInput mt-20" type="text" onChange={handleChange} ></input>
+          <input name="roomName" placeholder="Room" className="joinInput mt-20" type="text" onChange={handleChange} ></input>
         </div>
         <Link to={`/chat`}>
           <button onClick={e => {
-              if (!values.name || !values.room)
+              if (!values.username || !values.roomName)
                 e.preventDefault();
               else {
-                if (!localStorage.getItem('name')) localStorage.setItem('name', values.name);
-                firebase.signIn(values.room);
+                if (!localStorage.getItem('username')) localStorage.setItem('username', values.username);
+                firebase.signIn(values.roomName);
               }
             }
           } className="button mt-20" type="submit">Sign In</button>

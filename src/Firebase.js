@@ -28,27 +28,36 @@ class Firebase {
     this.db = firebase.firestore();
   }
 
-  signIn = room => {
-    this.db.collection('rooms')
-      .add({
-        'roomName': room
-      })
-      .then(docRef => {
-        console.log('Creating room is succeeded');
-        localStorage.setItem('roomId', docRef.id);
-      })
-      .catch(err => {
-        console.error(err);
+  signIn = roomName => {
+    let roomsRef = this.db.collection('rooms');
+    roomsRef.where('roomName', '==', roomName)
+      .get()
+      .then(snapshot => {
+        if (snapshot.empty) {
+          roomsRef.add({
+            'roomName': roomName
+          })
+            .then(doc => {
+              console.log('Creating room is succeeded');
+              localStorage.setItem('roomId', doc.id);
+            })
+        }
+        else {
+          snapshot.forEach(doc => {
+            localStorage.setItem('roomId', doc.id);
+            console.log('Joined the room');
+          });
+        }
       })
   }
 
   sendMessage = message => {
     const roomId = localStorage.getItem('roomId');
-    const username = localStorage.getItem('name');
+    const username = localStorage.getItem('userName');
     let messageRef = this.db.collection('rooms').doc(roomId).collection('messages');
     messageRef.add({
       'message': message,
-      'name': username
+      'userName': username
     });
   }
 }
