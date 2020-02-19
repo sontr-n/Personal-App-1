@@ -1,3 +1,8 @@
+# Personal App: Serverless Chat Application using ReactJS and Firebase 
+
+![react + firebase logo](https://miro.medium.com/max/3248/1*CywxT9za2jlqaemf9vjYAQ.png)
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
