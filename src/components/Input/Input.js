@@ -13,7 +13,7 @@ const Input = ({ message, handleChange, sendMessage }) => {
         type='text'
         placeholder='Type your messgage...'
         value={message}
-        onChange={handleChange}
+        onChange={e => handleChange(e.target.value)}
         onKeyPress={e => e.key === 'Enter' ? sendMessage(e) : null}
       />
     </form>

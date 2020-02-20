@@ -11,31 +11,43 @@ import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 
 
-const Chat = ({ username, roomName, roomId}) => {
+const Chat = ({ username, roomName, roomId }) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState({ loading: false });
   const db = firebase.firestore();
 
-  // useEffect(() => {
-  //   const messageRef = db.collection('rooms').doc(roomId).collection('messages');
-  //   messageRef.get()
-  //     .then(snapshot => {
-  //       let newMessages = [];
-  //       snapshot.forEach(doc => {
-  //         newMessages.push(doc.data());
-  //       });
-  //       setMessages(newMessages);
-  //     });
-  // });
+  useEffect(() => {
+    const updateMessage = () => {
+      console.log('update');
+      setLoading(true);
+      if (roomId !== '') {
+        db.collection('rooms').doc(roomId).collection('messages')
+          .onSnapshot(snapshot => {
+            let changes = snapshot.docChanges();
+            changes.forEach(change => {
+              if (change.type === 'added') {
+                let doc = change.doc;
+                let mess = { text: doc.data().message, user: doc.data().username };
+                setMessages(messages => [...messages, mess]);
+              }
+            });
+          });
+        setLoading(false);
+      }
+    }
+
+    updateMessage();
+  }, [roomId])
+
 
   const fireSendMessage = (message) => {
-    const roomId = localStorage.getItem('roomId');
-    const username = localStorage.getItem('username');
-    console.log(message);
+    // console.log(messages);
     let messageRef = db.collection('rooms').doc(roomId).collection('messages');
     messageRef.add({
       'message': message,
-      'username': username
+      'username': username,
+      'timestamp': Date.now()
     });
   }
 
@@ -53,7 +65,7 @@ const Chat = ({ username, roomName, roomId}) => {
       <div className='container'>
         <InfoBar roomName={roomName} />
         <Messages messages={messages} username={username} />
-        <Input message={message} handleChange={e => setMessage(e.target.value)} sendMessage={sendMessage} />
+        <Input message={message} handleChange={setMessage} sendMessage={sendMessage} />
       </div>
       <TextContainer />
     </div>

@@ -8,8 +8,9 @@ const TextContainer = () => (
   <div className="textContainer">
     <div>
       <h1>Realtime Chat Application <span role="img" aria-label="emoji">💬</span></h1>
-      <h2>Created with React, Express, Node and Socket.IO <span role="img" aria-label="emoji">❤️</span></h2>
+      <h2>Created with ReactJS, Firebase (absolutely SERVERLESS) <span role="img" aria-label="emoji">❤️</span></h2>
       <h2>Try it out right now! <span role="img" aria-label="emoji">⬅️</span></h2>
+      <img width='400px' src='https://miro.medium.com/max/3248/1*CywxT9za2jlqaemf9vjYAQ.png'></img>
     </div>
     {/* {
       users

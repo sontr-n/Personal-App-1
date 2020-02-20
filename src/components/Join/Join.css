@@ -69,3 +69,8 @@ html, body {
 button:focus {
   outline: 0;
 }
+
+.button:hover {
+  cursor: pointer;
+  background: rgb(22, 16, 175);
+}

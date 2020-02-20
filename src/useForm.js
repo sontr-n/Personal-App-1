@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 export const useForm = (initializeValue) => {
   const [values, setValues] = useState(initializeValue);
-
   return [
     values,
     e => {

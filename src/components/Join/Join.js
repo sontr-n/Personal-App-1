@@ -24,6 +24,9 @@ const Join = ({ setUsername, setRoomName, setRoomId, username, roomName }) => {
               setRoomId(doc.id);
               setRoomName(doc.data().roomName);
             })
+            .catch(err => {
+              console.log('??');
+            })
         }
         else {
           snapshot.forEach(doc => {
@@ -40,10 +43,10 @@ const Join = ({ setUsername, setRoomName, setRoomId, username, roomName }) => {
       <div className="joinInnerContainer">
         <h1 className="heading">Let's Chat</h1>
         <div>
-          <input name="username" placeholder="Name" className="joinInput" type="text" onChange={setUsername} ></input>
+          <input value={username} placeholder="Name" className="joinInput" type="text" onChange={e => setUsername(e.target.value)} />
         </div>
         <div>
-          <input name="roomName" placeholder="Room" className="joinInput mt-20" type="text" onChange={setRoomName} ></input>
+          <input value={roomName} placeholder="Room" className="joinInput mt-20" type="text" onChange={e => setRoomName(e.target.value)} />
         </div>
         <Link to={`/chat`}>
           <button onClick={e => {
