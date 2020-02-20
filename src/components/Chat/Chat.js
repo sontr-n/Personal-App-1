@@ -19,10 +19,12 @@ const Chat = ({ username, roomName, roomId }) => {
 
   useEffect(() => {
     const updateMessage = () => {
+      setMessages([]);
       console.log('update');
       setLoading(true);
       if (roomId !== '') {
         db.collection('rooms').doc(roomId).collection('messages')
+          .orderBy('timestamp')
           .onSnapshot(snapshot => {
             let changes = snapshot.docChanges();
             changes.forEach(change => {
