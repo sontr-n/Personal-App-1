@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useForm } from '../../useForm';
 import './Join.css';
 
 import * as firebase from 'firebase/app';
@@ -23,6 +22,9 @@ const Join = ({ setUsername, setRoomName, setRoomId, username, roomName }) => {
               console.log('Creating room is succeeded');
               setRoomId(doc.id);
               setRoomName(doc.data().roomName);
+              localStorage.setItem('roomId', doc.id);
+              localStorage.setItem('username', username);
+              localStorage.setItem('roomName', roomName);
             })
             .catch(err => {
               console.log('??');
@@ -32,6 +34,9 @@ const Join = ({ setUsername, setRoomName, setRoomId, username, roomName }) => {
           snapshot.forEach(doc => {
             setRoomId(doc.id);
             setRoomName(doc.data().roomName);
+            localStorage.setItem('roomId', doc.id);
+            localStorage.setItem('username', username);
+            localStorage.setItem('roomName', doc.data().roomName);
             console.log('Joined the room');
           });
         }

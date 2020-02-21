@@ -21,7 +21,10 @@ const App = () => {
       <Route path='/chat' exact render={props =>
         <Chat {...props} username={username}
           roomName={roomName}
-          roomId={roomId} />
+          roomId={roomId}
+          setUsername={setUsername}
+          setRoomName={setRoomName}
+          setRoomId={setRoomId} />
       } />
     </Router>
   )

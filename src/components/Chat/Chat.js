@@ -9,19 +9,20 @@ import TextContainer from '../TextContainer/TextContainer';
 
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
+import Spinner from '../Spinner/Spinner';
 
-
-const Chat = ({ username, roomName, roomId }) => {
+const Chat = ({ username, roomName, roomId, setUsername, setRoomName, setRoomId }) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState({ loading: false });
-  const db = firebase.firestore();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const updateMessage = () => {
+    const db = firebase.firestore();
+    setLoading(true);
+    const updateMessage = new Promise((resolve, reject) => {
       setMessages([]);
       console.log('update');
-      setLoading(true);
+      console.log(loading);
       if (roomId !== '') {
         db.collection('rooms').doc(roomId).collection('messages')
           .orderBy('timestamp')
@@ -34,16 +35,30 @@ const Chat = ({ username, roomName, roomId }) => {
                 setMessages(messages => [...messages, mess]);
               }
             });
+            resolve();
           });
-        setLoading(false);
       }
-    }
-
-    updateMessage();
+    })
+    updateMessage.then(() => setLoading(false));
+    console.log(loading);
   }, [roomId])
 
 
+  //reload page
+  useEffect(() => {
+    console.log('test');
+    if (localStorage.getItem('roomId') && localStorage.getItem('username') && localStorage.getItem('roomName')) {
+      setUsername(localStorage.getItem('username'));
+      setRoomName(localStorage.getItem('roomName'));
+      setRoomId(localStorage.getItem('roomId'));
+    }
+  }, [setRoomName, setUsername, setRoomId])
+
+
+
+
   const fireSendMessage = (message) => {
+    const db = firebase.firestore();
     // console.log(messages);
     let messageRef = db.collection('rooms').doc(roomId).collection('messages');
     messageRef.add({
@@ -66,7 +81,10 @@ const Chat = ({ username, roomName, roomId }) => {
     <div className='outerContainer'>
       <div className='container'>
         <InfoBar roomName={roomName} />
-        <Messages messages={messages} username={username} />
+        {loading
+          ? <Spinner />
+          : <Messages messages={messages} username={username} />
+        }
         <Input message={message} handleChange={setMessage} sendMessage={sendMessage} />
       </div>
       <TextContainer />
